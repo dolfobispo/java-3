@@ -1,0 +1,12 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    compile group: 'net.sf.supercsv', name: 'super-csv', version: '2.4.0'
+}
+
+repositories {
+    jcenter()
+}
