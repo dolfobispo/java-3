@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 
 public class Main {
-	List <Player> players = CsvFileReader.readCsv();
+	List <Player> players = Player.readPlayerCsv(Constants.CSV_PLAYER);
 	// Quantas nacionalidades (coluna `nationality`) diferentes existem no arquivo?
 	public int q1() throws IOException {
 		List<String> nationalities=players.stream().map(player -> player.getNationality()).distinct()
@@ -47,13 +48,18 @@ public class Main {
 	// Quem são os 10 jogadores mais velhos (use como critério de desempate o campo `eur_wage`)?
 	// (utilize as colunas `full_name` e `birth_date`)
 	public List<String> q5() {
-		return null;
+		Collections.sort(players, Comparator.comparing(Player::getBirthDate).thenComparing(Player::getEurWage).reversed());
+		List<String> result = players.stream().map(player->player.getFullName()).limit(10)
+				.collect(Collectors.toList());
+		return result;
 	}
 
 	// Conte quantos jogadores existem por idade. Para isso, construa um mapa onde as chaves são as idades e os valores a contagem.
 	// (utilize a coluna `age`)
 	public Map<Integer, Integer> q6() {
-		return null;
+		Map<Integer, Integer> result = players.stream()
+				  .collect(Collectors.groupingBy(Player::getAge,Collectors.summingInt(Player::getAge)));
+		return result;
 	}
 
 }
